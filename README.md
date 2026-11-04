@@ -19,9 +19,13 @@ Signal matches are simple pattern matches. They can occur in human writing and a
 
 Text processing runs in your browser. This static project has no server code or upload flow, and the text you enter is not sent anywhere by the app.
 
-## Run locally
+## Run it
 
-There is no build step or dependency installation. From this folder, start a local static server:
+Open `index.html` in your browser. On Windows, double-clicking the file opens it in your default browser. No server, build step, or dependency installation is required.
+
+### Optional: use a local web server
+
+If your browser restricts the **Copy** button when the page is opened as a file, you can serve the folder locally instead:
 
 ```sh
 python -m http.server 8000
