@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#e9eeeb">
+    <meta name="description" content="Clean AI-generated text from any writing assistant. Remove hidden characters and formatting, then review common writing patterns. Free and private in your browser.">
+    <meta name="author" content="Nobojit Halder">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Cleartext">
+    <meta property="og:title" content="AI Text Cleaner | Cleartext">
+    <meta property="og:description" content="Clean AI-generated text, remove hidden formatting, and review common writing patterns in your browser.">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="AI Text Cleaner | Cleartext">
+    <meta name="twitter:description" content="Clean AI-generated text, remove hidden formatting, and review common writing patterns in your browser.">
+    <title>AI Text Cleaner | Cleartext</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="#top" aria-label="Cleartext home">
+        <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span>cleartext</span>
+      </a>
+      <span class="privacy"><span class="privacy-dot" aria-hidden="true"></span> Private by design</span>
+    </header>
+
+    <main id="top">
+      <section class="intro" aria-labelledby="page-title">
+        <h1 id="page-title">Clean AI text before you use it.</h1>
+        <p>Remove hidden formatting and review common writing patterns. Free, local, and private.</p>
+      </section>
+
+      <section class="workspace" aria-label="Text cleaner">
+        <div class="workspace-head">
+          <div class="mode-tabs" role="tablist" aria-label="Workspace view">
+            <button class="mode-tab is-active" type="button" role="tab" aria-selected="true" aria-controls="clean-panel" id="clean-tab" data-mode="clean">Clean</button>
+            <button class="mode-tab" type="button" role="tab" aria-selected="false" aria-controls="signals-panel" id="signals-tab" data-mode="signals">Find signals <span class="tab-count" id="tab-count">0</span></button>
+          </div>
+          <div class="utility-actions">
+            <button class="run-button" type="button" id="clean-button">Clean text</button>
+            <button class="text-button" type="button" id="sample-button">Try a sample</button>
+            <button class="text-button" type="button" id="clear-button">Clear</button>
+          </div>
+        </div>
+
+        <div class="panes" id="clean-panel" role="tabpanel" aria-labelledby="clean-tab">
+          <section class="pane input-pane" aria-labelledby="input-label">
+            <div class="pane-heading">
+              <label id="input-label" for="source-text">Your text</label>
+              <span class="pane-meta" id="input-count">0 characters</span>
+            </div>
+            <textarea id="source-text" spellcheck="true" placeholder="Paste or write something here…" aria-describedby="privacy-note"></textarea>
+          </section>
+          <section class="pane output-pane" aria-labelledby="output-label">
+            <div class="pane-heading">
+              <label id="output-label" for="cleaned-text">Cleaned text</label>
+              <div class="output-tools"><span class="pane-meta" id="change-count">No changes</span><button class="undo-button" id="undo-button" type="button" aria-label="Restore original text" title="Restore original text" disabled>Undo</button><button class="copy-button" id="copy-button" type="button" disabled>Copy</button></div>
+            </div>
+            <textarea id="cleaned-text" readonly placeholder="Your cleaned text will appear here…" aria-live="polite"></textarea>
+            <details class="change-review" id="change-review" hidden>
+              <summary><span>Review changes</span><span id="review-count" class="review-count"></span></summary>
+              <div class="diff-columns">
+                <section><h3>Original</h3><pre id="before-diff" class="diff-content"></pre></section>
+                <section><h3>Cleaned</h3><pre id="after-diff" class="diff-content"></pre></section>
+              </div>
+              <p class="diff-legend"><span class="removed-swatch"></span>Removed <span class="added-swatch"></span>Added</p>
+            </details>
+          </section>
+        </div>
+
+        <section class="signals-panel" id="signals-panel" role="tabpanel" aria-labelledby="signals-tab" hidden>
+          <div class="signals-heading">
+            <div><h2>Patterns in your text</h2><p>Review stock wording, formal transitions, repeated sentence starts, and formatting artifacts.</p></div>
+            <div class="signal-total"><span id="signal-count">0</span><span>signals</span></div>
+          </div>
+          <div class="signal-legend" aria-label="Highlight key">
+            <span><i class="legend-mark format-mark"></i>Formatting</span>
+            <span><i class="legend-mark phrase-mark"></i>Common phrasing</span>
+            <span><i class="legend-mark structure-mark"></i>Structure</span>
+          </div>
+          <p id="signal-context" class="signal-context"></p>
+          <div id="marked-text" class="marked-text" aria-label="Your text with signals highlighted" aria-live="polite"><span class="empty-marked">Paste text in the Clean view to inspect it.</span></div>
+          <div id="signal-list" class="signal-list"></div>
+          <p class="caveat">These matches are editing prompts, not an authorship verdict. Common phrases can appear in human writing, and writing style varies by person, topic, and genre.</p>
+        </section>
+
+        <details class="options" open>
+          <summary><span>Cleaning options</span><span class="summary-hint">Choose what to change</span></summary>
+          <div class="option-grid">
+            <label class="option"><input type="checkbox" data-rule="hidden" checked><span class="checkmark"></span><span><b>Hidden characters</b><small>Zero-width spaces and joiners</small></span></label>
+            <label class="option"><input type="checkbox" data-rule="nbsp" checked><span class="checkmark"></span><span><b>Non-breaking spaces</b><small>Replace with regular spaces</small></span></label>
+            <label class="option"><input type="checkbox" data-rule="dashes" checked><span class="checkmark"></span><span><b>Long dashes</b><small>Convert to a hyphen</small></span></label>
+            <label class="option"><input type="checkbox" data-rule="quotes" checked><span class="checkmark"></span><span><b>Smart quotes</b><small>Convert to straight quotes</small></span></label>
+            <label class="option"><input type="checkbox" data-rule="ellipsis" checked><span class="checkmark"></span><span><b>Ellipsis character</b><small>Convert to three periods</small></span></label>
+            <label class="option"><input type="checkbox" data-rule="trailing" checked><span class="checkmark"></span><span><b>Trailing spaces</b><small>Trim ends of lines</small></span></label>
+            <label class="option"><input type="checkbox" data-rule="markdown"><span class="checkmark"></span><span><b>Markdown marks</b><small>Remove headings and asterisks</small></span></label>
+            <label class="option"><input type="checkbox" data-rule="unicode"><span class="checkmark"></span><span><b>Unicode variants</b><small>Normalize fullwidth and styled text</small></span></label>
+            <label class="option"><input type="checkbox" data-rule="lookalikes"><span class="checkmark"></span><span><b>Lookalike letters</b><small>Map Greek/Cyrillic to Latin</small></span></label>
+          </div>
+        </details>
+      </section>
+
+      <p class="privacy-note" id="privacy-note"><span aria-hidden="true">⌁</span> Processing happens locally in your browser. Nothing is uploaded.</p>
+
+      <section class="search-content" aria-labelledby="about-title">
+        <h2 id="about-title">A free AI text cleaner for copied drafts</h2>
+        <p class="search-lede">Cleartext tidies text copied from AI writing assistants. Clean invisible Unicode, non-breaking spaces, long dashes, smart quotes, ellipsis characters, and leftover markdown before pasting text into a document, website, or code editor.</p>
+        <div class="search-features">
+          <article>
+            <h3>Clean formatting artifacts</h3>
+            <p>Choose which characters and formatting marks to normalize. Review the before and after changes, then copy the cleaned text.</p>
+          </article>
+          <article>
+            <h3>Review common writing patterns</h3>
+            <p>Find Signals highlights selected phrases, repeated sentence openings, and formatting cues. These are editing prompts, not proof of who wrote the text.</p>
+          </article>
+          <article>
+            <h3>Keep your text on your device</h3>
+            <p>Text processing runs in your browser. Cleartext does not upload pasted text or require an account.</p>
+          </article>
+        </div>
+      </section>
+
+      <footer><span>Cleartext <span class="release-tag">v1.0.0</span></span><span class="author-credit">Made by <b>Nobojit Halder</b></span><span>A small tool for clearer text.</span></footer>
+    </main>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>
