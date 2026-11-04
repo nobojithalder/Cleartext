@@ -2,7 +2,7 @@
 
 **Clean AI text before you use it.** Cleartext is a free, private, browser based tool for tidying copied drafts and reviewing common writing patterns.
 
-[Open Cleartext](https://cleartext.nobojit.com/)
+[Use Cleartext](https://cleartext.nobojit.com/)
 
 ![Cleartext interface](docs/cleartext-preview.png)
 
@@ -32,10 +32,6 @@ python -m http.server 8000
 ```
 
 Then open <http://localhost:8000>.
-
-## Publish with GitHub Pages
-
-The site is plain HTML, CSS, and JavaScript. In the repository settings, choose **Pages**, set the source to deploy from a branch, and select the root folder of `main`.
 
 ## Project files
 
